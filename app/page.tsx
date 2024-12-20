@@ -1,4 +1,6 @@
 "use client";
+import GenerateEthereumWallet from "@/components/GenerateEthereumWallet";
+import GenerateSolanaWallet from "@/components/GenerateSolanaWallet";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,31 +10,36 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { MyContext } from "@/lib/context";
 import { generateMnemonic } from "bip39";
 import { Clipboard, Download, DownloadIcon, X } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 export default function Home() {
-  const [mnemonic, setMnemonic] = useState("");
   const [mnemonicModalOpen, setMnemonicModalOpen] = useState(false);
+  const { mnemonic, setMnemonic } = useContext(MyContext);
 
   const { toast } = useToast();
 
   const createMnemonic = async () => {
     const mn = await generateMnemonic();
+    console.log(mn);
+
     setMnemonic(mn);
     setMnemonicModalOpen(true);
   };
-  // console.log(mnemonic.split(" "));
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(mnemonic);
       toast({
-        title: "Seed Phrase Copied to Clipboard",
+        title: "Recovery Phrase Copied to Clipboard",
       });
     } catch (err) {
       console.error("Failed to copy: ", err);
@@ -59,7 +66,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-12 ">
+    <main className="flex min-h-screen flex-col items-center justify-between p-10 ">
       {/* Create Seed Phrase */}
       {mnemonicModalOpen ||
         (!mnemonic && (
@@ -68,22 +75,29 @@ export default function Home() {
               createMnemonic();
             }}
           >
-            Generate Seed Phrase
+            Generate Recovery Phrase
           </Button>
         ))}
       {/* Add Wallets */}
       {mnemonicModalOpen ||
         (mnemonic && (
-          <Button
-            onClick={() => {
-              createMnemonic();
-            }}
-          >
-            Add Wallets
-          </Button>
+          <div className="container">
+            <Tabs defaultValue="Ethereum" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 max-w-[400px] mb-6">
+                <TabsTrigger value="Ethereum">Ethereum</TabsTrigger>
+                <TabsTrigger value="Solana">Solana</TabsTrigger>
+              </TabsList>
+              <TabsContent value="Ethereum">
+                <GenerateEthereumWallet />
+              </TabsContent>
+              <TabsContent value="Solana">
+                <GenerateSolanaWallet />
+              </TabsContent>
+            </Tabs>
+          </div>
         ))}
 
-      {/* Save Seed Phrase */}
+      {/* Save Recovery Phrase */}
 
       {mnemonicModalOpen && (
         <div className="w-full h-screen bg-black/40 fixed z-50 top-0 flex items-center justify-center ">
@@ -99,7 +113,7 @@ export default function Home() {
               <X size={22} />
             </Button>
             <CardHeader>
-              <CardTitle>Secure Your Seed Phrase</CardTitle>
+              <CardTitle>Secure Your Recovery Phrase</CardTitle>
               <CardDescription>
                 Make sure to save it now. You won’t be able to retrieve it once
                 you close this tab.

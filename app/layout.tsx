@@ -1,11 +1,11 @@
+import NavBar from "@/components/NavBar";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Separator } from "@/components/ui/separator";
+import { Toaster } from "@/components/ui/toaster";
+import { ContextProvider } from "@/lib/context";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { DarkModeBtn } from "@/components/DarkModeBtn";
-import NavBar from "@/components/NavBar";
-import { Separator } from "@/components/ui/separator";
-import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,19 +22,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NavBar />
+        <ContextProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NavBar />
 
-          <Separator />
-          {/* <DarkModeBtn /> */}
-          {children}
-        </ThemeProvider>
-        <Toaster />
+            <Separator />
+            {/* <DarkModeBtn /> */}
+            {children}
+          </ThemeProvider>
+          <Toaster />
+        </ContextProvider>
       </body>
     </html>
   );
