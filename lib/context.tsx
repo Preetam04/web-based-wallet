@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useState } from "react";
 
-type WalletType = {
+export type WalletType = {
   id: number;
   private: string;
   public: string;

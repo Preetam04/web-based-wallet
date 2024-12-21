@@ -10,6 +10,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -29,7 +38,7 @@ export default function Home() {
 
   const createMnemonic = async () => {
     const mn = await generateMnemonic();
-    console.log(mn);
+    // console.log(mn);
 
     setMnemonic(mn);
     setMnemonicModalOpen(true);
@@ -66,7 +75,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-10 ">
+    <main className="flex min-h-screen flex-col items-center justify-between  m-10 relative">
       {/* Create Seed Phrase */}
       {mnemonicModalOpen ||
         (!mnemonic && (
@@ -78,6 +87,32 @@ export default function Home() {
             Generate Recovery Phrase
           </Button>
         ))}
+
+      {mnemonic && !mnemonicModalOpen && (
+        <div className="absolute right-20">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline">Show Secret Phrase</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Secret Seed phrase visible</DialogTitle>
+              </DialogHeader>
+              <div className="grid grid-cols-3 grid-rows-4 gap-2 mt-4 ">
+                {mnemonic.split(" ").map((ele) => (
+                  <div
+                    key={ele}
+                    className="min-w-16 bg-gray-500/25 px-8 py-2 text-center rounded-md"
+                  >
+                    {ele}
+                  </div>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      )}
+
       {/* Add Wallets */}
       {mnemonicModalOpen ||
         (mnemonic && (

@@ -1,8 +1,9 @@
+import { MyContext } from "@/lib/context";
 import { mnemonicToSeed } from "bip39";
 import { BytesLike, HDNodeWallet, Wallet } from "ethers";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Button } from "./ui/button";
-import { MyContext } from "@/lib/context";
+import WalletCard from "./WalletCard";
 
 const GenerateEthereumWallet = () => {
   const { mnemonic, ethWallets, setEthWallets } = useContext(MyContext);
@@ -23,16 +24,19 @@ const GenerateEthereumWallet = () => {
         public: wallet.address,
       },
     ]);
-    console.log(privateKey, wallet);
   };
-
-  // console.log(ethWallets);
 
   return (
     <div>
       <Button onClick={generateEthereumWallet} className="mb-6">
         Generate Ethereum wallet
       </Button>
+
+      <div className="grid grid-cols-2 gap-4">
+        {ethWallets.map((ele) => (
+          <WalletCard key={ele.public} type={"Ethereum"} data={ele} />
+        ))}
+      </div>
     </div>
   );
 };
