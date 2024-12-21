@@ -13,21 +13,16 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { MyContext } from "@/lib/context";
 import { generateMnemonic } from "bip39";
-import { Clipboard, Download, DownloadIcon, X } from "lucide-react";
-import Image from "next/image";
+import { Clipboard, DownloadIcon, X } from "lucide-react";
 import { useContext, useState } from "react";
 
 export default function Home() {

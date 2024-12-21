@@ -1,15 +1,6 @@
 import { useToast } from "@/hooks/use-toast";
+import { WalletType } from "@/lib/context";
 import { AlertCircle, Copy } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "./ui/alert-dialog";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -18,10 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
-import { WalletType } from "@/lib/context";
 import {
   Dialog,
   DialogContent,
@@ -29,6 +16,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
 
 const WalletCard = ({ data, type }: { data: WalletType; type: string }) => {
   const { toast } = useToast();

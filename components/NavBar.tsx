@@ -1,4 +1,3 @@
-import React from "react";
 import { DarkModeBtn } from "./DarkModeBtn";
 
 const NavBar = () => {
